@@ -4046,4 +4046,7 @@ Se selezioni 'Annulla', il file del profilo non verrà crittografato.</value>
   <data name="ToolTip_RestartRequired" xml:space="preserve">
     <value>Per applicare le modifiche come le impostazioni della lingua è necessario un riavvio.</value>
   </data>
+  <data name="NetworkConnectionProfile" xml:space="preserve">
+    <value>Network connection profile</value>
+  </data>
 </root>

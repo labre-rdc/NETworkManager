@@ -3945,4 +3945,22 @@ Wenn Sie auf „Abbrechen“ klicken, bleibt die Profildatei unverschlüsselt.</
   <data name="ToolTip_RestartRequired" xml:space="preserve">
     <value>Ein Neustart ist erforderlich, um Änderungen wie Spracheinstellungen zu übernehmen.</value>
   </data>
+  <data name="NetworkConnectionProfile" xml:space="preserve">
+    <value>Netzwerkprofiltyp</value>
+  </data>
+  <data name="ToolTip_NetProfileNotConfigured" xml:space="preserve">
+    <value>Systemkonfiguration nicht verändern</value>
+  </data>
+  <data name="Public" xml:space="preserve">
+    <value>Öffentlich</value>
+  </data>
+  <data name="Private" xml:space="preserve">
+    <value>Privat</value>
+  </data>
+  <data name="FirewallRules" xml:space="preserve">
+    <value>Firewall Regeln</value>
+  </data>
+  <data name="NotConfigured" xml:space="preserve">
+    <value>Nicht konfiguriert</value>
+  </data>
 </root>

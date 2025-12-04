@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="NETworkManager.Views.FirewallView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:NETworkManager.Converters;assembly=NETworkManager.Converters"
+             xmlns:wpfHelpers="clr-namespace:NETworkManager.Utilities.WPF;assembly=NETworkManager.Utilities.WPF"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:mahAppsControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:validators="clr-namespace:NETworkManager.Validators;assembly=NETworkManager.Validators"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:viewModels="clr-namespace:NETworkManager.ViewModels"
+             xmlns:network="clr-namespace:NETworkManager.Models.Network;assembly=NETworkManager.Models"
+             xmlns:firewall="clr-namespace:NETworkManager.Models.Firewall;assembly=NETworkManager.Models"
+             xmlns:localization="clr-namespace:NETworkManager.Localization.Resources;assembly=NETworkManager.Localization"
+             xmlns:settings="clr-namespace:NETworkManager.Settings;assembly=NETworkManager.Settings"
+             xmlns:controls="clr-namespace:NETworkManager.Controls;assembly=NETworkManager.Controls"
+             xmlns:models="clr-namespace:NETworkManager.Models;assembly=NETworkManager.Models"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialogs:DialogParticipation.Register="{Binding}"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:FirewallViewModel}">
+    <UserControl.Resources>
+        <converters:BooleanReverseConverter x:Key="BooleanReverseConverter" />
+        <converters:BooleanToEnumConverter x:Key="BooleanToEnumConverter"/>
+        <converters:BooleanReverseToVisibilityCollapsedConverter x:Key="BooleanReverseToVisibilityCollapsedConverter" />
+        <converters:BooleanToStringConverter x:Key="BooleanToStringConverter" />
+        <converters:BooleanToVisibilityCollapsedConverter x:Key="BooleanToVisibilityCollapsedConverter" />
+        <converters:BooleansOrToVisibilityCollapsedConverter x:Key="BooleansOrToVisibilityCollapsedConverter" />
+        <converters:IntNotZeroToVisibilityCollapsedConverter x:Key="IntNotZeroToVisibilityCollapsedConverter" />
+        <converters:IntToStringConverter x:Key="IntToStringConverter" />
+        <converters:IntZeroToVisibilityCollapsedConverter x:Key="IntZeroToVisibilityCollapsedConverter" />
+        <converters:StringIsNotNullOrEmptyToBooleanConverter x:Key="StringIsNotNullOrEmptyToBooleanConverter" />
+        <converters:StringNullOrEmptyToStringConverter x:Key="StringNullOrEmptyToStringConverter" />
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Style="{StaticResource ResourceKey=HeaderTextBlock}"
+                   Text="{x:Static Member=localization:Strings.NetworkConnectionProfile}" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 0, 0, 20">
+            <RadioButton x:Name="RadioButtonNetProfileNotConfigured"
+                         Margin="10 0 10 0"
+                         GroupName="NetworkProfile"
+                         Content="{x:Static localization:Strings.NotConfigured}"
+                         IsChecked="{Binding NetworkProfileConfig,
+                         Converter={StaticResource BooleanToEnumConverter},
+                         ConverterParameter={x:Static firewall:NetworkConnectionProfile.NotConfigured}}"
+                         ToolTip="{x:Static localization:Strings.ToolTip_NetProfileNotConfigured}"/>
+            <RadioButton x:Name="RadioButtonNetProfilePrivate"
+                         Margin="10 0 10 0"
+                         GroupName="NetworkProfile"
+                         Content="{x:Static localization:Strings.Private}"
+                         IsChecked="{Binding NetworkProfileConfig,
+                     Converter={StaticResource BooleanToEnumConverter},
+                     ConverterParameter={x:Static firewall:NetworkConnectionProfile.Private}}" />
+            <RadioButton x:Name="RadioButtonNetProfilePublic"
+                         GroupName="NetworkProfile"
+                         Margin="10 0 10 0"
+                         Content="{x:Static localization:Strings.Public}"
+                         IsChecked="{Binding NetworkProfileConfig,
+                     Converter={StaticResource BooleanToEnumConverter},
+                     ConverterParameter={x:Static firewall:NetworkConnectionProfile.Public}}" />
+            <RadioButton x:Name="RadioButtonNetProfileDomain"
+                         GroupName="NetworkProfile"
+                         Margin="10 0 10 0"
+                         Content="{x:Static localization:Strings.Domain}"
+                         IsEnabled="False"
+                         IsChecked="{Binding NetworkProfileConfig,
+                     Converter={StaticResource BooleanToEnumConverter},
+                     ConverterParameter={x:Static firewall:NetworkConnectionProfile.DomainAuthenticated}}" />
+        </StackPanel>
+        <TextBlock Grid.Row="2" Style="{StaticResource ResourceKey=HeaderTextBlock}"
+                   Text="{x:Static Member=localization:Strings.FirewallRules}" />
+    </Grid>
+</UserControl>

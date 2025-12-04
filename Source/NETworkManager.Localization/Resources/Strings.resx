@@ -3945,4 +3945,25 @@ If you click Cancel, the profile file will remain unencrypted.</value>
   <data name="ToolTip_RestartRequired" xml:space="preserve">
     <value>A restart is required to apply changes such as language settings.</value>
   </data>
+  <data name="NetworkConnectionProfile" xml:space="preserve">
+    <value>Network connection profile</value>
+  </data>
+  <data name="NotConfigured" xml:space="preserve">
+    <value>Not configured</value>
+  </data>
+  <data name="ToolTip_NetProfileNotConfigured" xml:space="preserve">
+    <value>Do not change system configuration</value>
+  </data>
+  <data name="NetProfilePrivate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="Private" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="FirewallRules" xml:space="preserve">
+    <value>Firewall rules</value>
+  </data>
 </root>

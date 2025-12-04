@@ -704,6 +704,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
     private ConnectionsView _connectionsView;
     private ListenersView _listenersView;
     private ARPTableView _arpTableView;
+    private FirewallView _firewallView;
 
 
     /// <summary>
@@ -924,6 +925,14 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 
                 ContentControlApplication.Content = _arpTableView;
                 break;
+            case ApplicationName.Firewall:
+                if (_firewallView is null)
+                    _firewallView = new FirewallView();
+                else
+                    _firewallView.OnViewVisible();
+
+                ContentControlApplication.Content = _firewallView;
+                break;
 
             default:
                 Log.Error("Cannot show unknown application view: " + name);
@@ -1013,6 +1022,10 @@ public sealed partial class MainWindow : INotifyPropertyChanged
             case ApplicationName.ARPTable:
                 _arpTableView?.OnViewHide();
                 break;
+            case ApplicationName.Firewall:
+                _firewallView?.OnViewHide();
+                break;
+            
             default:
                 Log.Error("Cannot hide unknown application view: " + name);
                 break;
@@ -1125,6 +1138,8 @@ public sealed partial class MainWindow : INotifyPropertyChanged
             case ApplicationName.Listeners:
                 break;
             case ApplicationName.ARPTable:
+                break;
+            case ApplicationName.Firewall:
                 break;
             case ApplicationName.None:
             default:

@@ -3929,4 +3929,7 @@ If you click Cancel, the profile file will remain unencrypted.</value>
   <data name="ToolTip_RestartRequired" xml:space="preserve">
     <value>A restart is required to apply changes such as language settings.</value>
   </data>
+  <data name="NetworkConnectionProfile" xml:space="preserve">
+    <value>Network connection profile</value>
+  </data>
 </root>
