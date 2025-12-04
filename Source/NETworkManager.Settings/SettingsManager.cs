@@ -363,6 +363,12 @@ public static class SettingsManager
 
             Current.General_ApplicationList.Remove(appToRemove);
         }
+        
+        Log.Info($"Add new app {nameof(ApplicationName.Firewall)}.");
+        
+        Current.General_ApplicationList.Insert(
+            ApplicationManager.GetDefaultList().ToList().FindIndex(x => x.Name == ApplicationName.Firewall),
+            ApplicationManager.GetDefaultList().First(x => x.Name == ApplicationName.Firewall));
     }
     #endregion
 }
