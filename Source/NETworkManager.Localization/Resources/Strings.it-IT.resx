@@ -4046,7 +4046,43 @@ Se selezioni 'Annulla', il file del profilo non verrà crittografato.</value>
   <data name="ToolTip_RestartRequired" xml:space="preserve">
     <value>Per applicare le modifiche come le impostazioni della lingua è necessario un riavvio.</value>
   </data>
-  <data name="NetworkConnectionProfile" xml:space="preserve">
+  <data name="NetworkCategory" xml:space="preserve">
     <value>Network connection profile</value>
+  </data>
+  <data name="ToolTip_NetProfileNotConfigured" xml:space="preserve">
+    <value>Do not change system configuration</value>
+  </data>
+  <data name="Outbound" xml:space="preserve">
+    <value>Outbound</value>
+  </data>
+  <data name="Private_Short3" xml:space="preserve">
+    <value>Prv</value>
+  </data>
+  <data name="Private" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="FirewallRules" xml:space="preserve">
+    <value>Firewall rules</value>
+  </data>
+  <data name="RemotePorts" xml:space="preserve">
+    <value>Remote ports</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="LocalPorts" xml:space="preserve">
+    <value>Local ports</value>
+  </data>
+  <data name="Inbound" xml:space="preserve">
+    <value>Inbound</value>
+  </data>
+  <data name="NotConfigured" xml:space="preserve">
+    <value>Not configured</value>
+  </data>
+  <data name="PipeNotAllowed" xml:space="preserve">
+    <value>Character ‘|’ is not allowed.</value>
   </data>
 </root>

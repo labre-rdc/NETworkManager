@@ -1,17 +1,9 @@
-﻿using System.Windows;
-using System;
-using System.Collections;
-using System.ComponentModel;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 using MahApps.Metro.Controls.Dialogs;
-using NETworkManager.Controls;
-using NETworkManager.Models.Network;
-using NETworkManager.Utilities;
 using NETworkManager.ViewModels;
-using VisualTreeHelper = System.Windows.Media.VisualTreeHelper;
 
 namespace NETworkManager.Views;
 
@@ -25,25 +17,13 @@ public partial class FirewallView
 
         _viewModel = new FirewallViewModel(DialogCoordinator.Instance);
         DataContext = _viewModel;
-
-        // TODO: Required when searching for apps.
-        //Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
     }
     
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    #region Events
+    private void ContextMenu_Opened(object sender, RoutedEventArgs e)
     {
-        return;
-    }
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    /// <remarks>Required when searching for apps.</remarks>
-    private void Dispatcher_ShutdownStarted(object sender, EventArgs e)
-    {
-        _viewModel.OnClose();
+        if (sender is ContextMenu menu)
+            menu.DataContext = _viewModel;
     }
 
     public void OnViewHide()
@@ -55,5 +35,22 @@ public partial class FirewallView
     {
         _viewModel.OnViewVisible();
     }
+    
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    {
+        // Get the row from the sender
+        for (var visual = sender as Visual; visual != null; visual = VisualTreeHelper.GetParent(visual) as Visual)
+        {
+            if (visual is not DataGridRow row)
+                continue;
 
+            row.DetailsVisibility =
+                row.DetailsVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+
+            break;
+        }
+    }
+    
+    #endregion
+    
 }

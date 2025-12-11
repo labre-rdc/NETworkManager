@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NETworkManager.Models.Network;
 
 namespace NETworkManager.Models.Firewall;
 
 public class FirewallRule
 {
     #region Variables
-
+    public string Name { get; set; }
+    
+    public string UserDefinedName { get; set; }
+    
     /// <summary>
     /// Specifies the network protocol associated with the firewall rule.
     /// </summary>
@@ -38,9 +44,9 @@ public class FirewallRule
         }
     }
 
-    private List<FirewallPortOrPortRange> _localPorts = null;
+    private List<FirewallPortSpecification> _localPorts = null;
     
-    public List<FirewallPortOrPortRange> LocalPorts
+    public List<FirewallPortSpecification> LocalPorts
     {
         get => _localPorts;
         private set
@@ -53,9 +59,9 @@ public class FirewallRule
         }
     }
 
-    private List<FirewallPortOrPortRange> _remotePorts = null;
+    private List<FirewallPortSpecification> _remotePorts = null;
 
-    public List<FirewallPortOrPortRange> RemotePorts
+    public List<FirewallPortSpecification> RemotePorts
     {
         get => _remotePorts;
         set
@@ -67,19 +73,50 @@ public class FirewallRule
             _remotePorts = value;
         }
     }
+
+    private bool[] _networkCategory;
+
+    public bool[] NetworkCategory
+    {
+        get => _networkCategory;
+        set
+        {
+            if (value?.Length is not 3)
+                return;
+
+            _networkCategory = value;
+        }
+    }
     
     #endregion
     
     #region Constructors
 
+    public FirewallRule()
+    {
+        
+    }
+    
     public FirewallRule(FirewallProtocol protocol, FirewallRuleDirection direction, FirewallRuleProgram program,
-        List<FirewallPortOrPortRange> localPorts, List<FirewallPortOrPortRange> remotePorts)
+        List<FirewallPortSpecification> localPorts, List<FirewallPortSpecification> remotePorts,
+        bool[] networkCategory)
     {
         Protocol = protocol;
         Direction = direction;
         Program = program;
         LocalPorts = localPorts;
         RemotePorts = remotePorts;
+        NetworkCategory = networkCategory;
+    }
+    
+    #endregion
+    
+    #region Methods
+
+    public static string PortsToString(List<FirewallPortSpecification> ports)
+    {
+        var result = ports.Aggregate(string.Empty, (current, port) => current + $"{port}; ");
+        return result.Remove(result.Length - 2);
     }
     
     #endregion

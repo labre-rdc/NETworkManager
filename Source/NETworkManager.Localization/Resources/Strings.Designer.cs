@@ -2735,6 +2735,15 @@ namespace NETworkManager.Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deselect.
+        /// </summary>
+        public static string Deselect {
+            get {
+                return ResourceManager.GetString("Deselect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Design.
         /// </summary>
         public static string Design {
@@ -2857,6 +2866,15 @@ namespace NETworkManager.Localization.Resources {
         public static string DHCPServer {
             get {
                 return ResourceManager.GetString("DHCPServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direction.
+        /// </summary>
+        public static string Direction {
+            get {
+                return ResourceManager.GetString("Direction", resourceCulture);
             }
         }
         
@@ -4828,6 +4846,15 @@ namespace NETworkManager.Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inbound.
+        /// </summary>
+        public static string Inbound {
+            get {
+                return ResourceManager.GetString("Inbound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Indigo.
         /// </summary>
         public static string Indigo {
@@ -5558,6 +5585,15 @@ namespace NETworkManager.Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Local ports.
+        /// </summary>
+        public static string LocalPorts {
+            get {
+                return ResourceManager.GetString("LocalPorts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Local start time.
         /// </summary>
         public static string LocalStartTime {
@@ -6053,11 +6089,11 @@ namespace NETworkManager.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Network connection profile.
+        ///   Looks up a localized string similar to Network category.
         /// </summary>
-        public static string NetworkConnectionProfile {
+        public static string NetworkCategory {
             get {
-                return ResourceManager.GetString("NetworkConnectionProfile", resourceCulture);
+                return ResourceManager.GetString("NetworkCategory", resourceCulture);
             }
         }
         
@@ -6675,6 +6711,15 @@ namespace NETworkManager.Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Outbound.
+        /// </summary>
+        public static string Outbound {
+            get {
+                return ResourceManager.GetString("Outbound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to override.
         /// </summary>
         public static string Override {
@@ -6891,6 +6936,15 @@ namespace NETworkManager.Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Character ‘|’ is not allowed..
+        /// </summary>
+        public static string PipeNotAllowed {
+            get {
+                return ResourceManager.GetString("PipeNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Port.
         /// </summary>
         public static string Port {
@@ -7085,6 +7139,15 @@ namespace NETworkManager.Localization.Resources {
         public static string Private {
             get {
                 return ResourceManager.GetString("Private", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prv.
+        /// </summary>
+        public static string Private_Short3 {
+            get {
+                return ResourceManager.GetString("Private_Short3", resourceCulture);
             }
         }
         
@@ -8561,6 +8624,15 @@ namespace NETworkManager.Localization.Resources {
         public static string RemotePort {
             get {
                 return ResourceManager.GetString("RemotePort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remote ports.
+        /// </summary>
+        public static string RemotePorts {
+            get {
+                return ResourceManager.GetString("RemotePorts", resourceCulture);
             }
         }
         

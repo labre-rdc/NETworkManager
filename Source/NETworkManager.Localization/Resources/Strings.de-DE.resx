@@ -3913,7 +3913,7 @@ Rechtsklick für weitere Optionen.</value>
     <value>Match</value>
   </data>
   <data name="Any" xml:space="preserve">
-    <value>Any</value>
+    <value>Beliebig</value>
   </data>
   <data name="AddGroupDots" xml:space="preserve">
     <value>Gruppe hinzufügen...</value>
@@ -3945,7 +3945,7 @@ Wenn Sie auf „Abbrechen“ klicken, bleibt die Profildatei unverschlüsselt.</
   <data name="ToolTip_RestartRequired" xml:space="preserve">
     <value>Ein Neustart ist erforderlich, um Änderungen wie Spracheinstellungen zu übernehmen.</value>
   </data>
-  <data name="NetworkConnectionProfile" xml:space="preserve">
+  <data name="NetworkCategory" xml:space="preserve">
     <value>Netzwerkprofiltyp</value>
   </data>
   <data name="ToolTip_NetProfileNotConfigured" xml:space="preserve">
@@ -3962,5 +3962,29 @@ Wenn Sie auf „Abbrechen“ klicken, bleibt die Profildatei unverschlüsselt.</
   </data>
   <data name="NotConfigured" xml:space="preserve">
     <value>Nicht konfiguriert</value>
+  </data>
+  <data name="Deselect" xml:space="preserve">
+    <value>Nichts auswählen</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Richtung</value>
+  </data>
+  <data name="LocalPorts" xml:space="preserve">
+    <value>Lokale Ports</value>
+  </data>
+  <data name="RemotePorts" xml:space="preserve">
+    <value>Remote Ports</value>
+  </data>
+  <data name="Inbound" xml:space="preserve">
+    <value>Eingehend</value>
+  </data>
+  <data name="Outbound" xml:space="preserve">
+    <value>Ausgehend</value>
+  </data>
+  <data name="PipeNotAllowed" xml:space="preserve">
+    <value>Das Zeichen ‚|’ darf nicht enthalten sein.</value>
+  </data>
+  <data name="Private_Short3" xml:space="preserve">
+    <value>Prv</value>
   </data>
 </root>

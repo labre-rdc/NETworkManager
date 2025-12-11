@@ -4389,6 +4389,38 @@ public class SettingsInfo : INotifyPropertyChanged
 
     #endregion
 
+    #region Firewall
+    private bool _firewall_ExpandProfileView = GlobalStaticConfiguration.Profile_ExpandProfileView;
+
+    public bool Firewall_ExpandProfileView
+    {
+        get => _firewall_ExpandProfileView;
+        set
+        {
+            if (value == _firewall_ExpandProfileView)
+                return;
+
+            _firewall_ExpandProfileView = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private double _firewall_ProfileWidth = GlobalStaticConfiguration.Profile_DefaultWidthExpanded;
+
+    public double Firewall_ProfileWidth
+    {
+        get => _firewall_ProfileWidth;
+        set
+        {
+            if (Math.Abs(value - _firewall_ProfileWidth) < GlobalStaticConfiguration.Profile_FloatPointFix)
+                return;
+
+            _firewall_ProfileWidth = value;
+            OnPropertyChanged();
+        }
+    }
+    #endregion
+    
     #endregion
 
     #region Constructor
