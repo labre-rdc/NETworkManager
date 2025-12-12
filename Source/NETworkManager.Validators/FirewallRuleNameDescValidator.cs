@@ -4,16 +4,22 @@ using NETworkManager.Localization.Resources;
 
 namespace NETworkManager.Validators;
 
+/// <summary>
+/// Provides validation logic for user-defined names or descriptions used in firewall rules.
+/// Ensures the value meets specific criteria for validity:
+/// - The character '|' is not allowed.
+/// - The string length does not exceed 9999 characters.
+/// </summary>
 public class FirewallRuleNameDescValidator : ValidationRule
 {
     /// <summary>
-    /// Two conditions:
-    /// - '|' must not be contained
-    /// - String must not be longer than 9999 characters
+    /// Validates a string based on the following two conditions:
+    /// - The string must not contain the '|' character.
+    /// - The string must not exceed a length of 9999 characters.
     /// </summary>
-    /// <param name="value">Value to be checked</param>
-    /// <param name="cultureInfo">Current language info</param>
-    /// <returns></returns>
+    /// <param name="value">The value to be validated.</param>
+    /// <param name="cultureInfo">The culture information used during validation.</param>
+    /// <returns>A ValidationResult indicating whether the string is valid or not.</returns>
     public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
         if (string.IsNullOrEmpty(value?.ToString()))
