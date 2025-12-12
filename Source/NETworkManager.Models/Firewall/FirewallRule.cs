@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NETworkManager.Models.Network;
 
 namespace NETworkManager.Models.Firewall;
 
@@ -9,8 +7,8 @@ public class FirewallRule
 {
     #region Variables
     public string Name { get; set; }
-    
-    public string UserDefinedName { get; set; }
+
+    public string Description { get; set; }
     
     /// <summary>
     /// Specifies the network protocol associated with the firewall rule.
@@ -20,7 +18,7 @@ public class FirewallRule
     /// The protocol can be set to specific values such as TCP, UDP, ICMP, or Any, among others,
     /// based on the predefined options in the <c>FirewallProtocol</c> enumeration.
     /// </remarks>
-    public FirewallProtocol Protocol { get; private set; } = FirewallProtocol.Any;
+    public FirewallProtocol Protocol { get; set; } = FirewallProtocol.TCP;
     
     /// <summary>
     /// Represents the direction of network traffic in a firewall rule.
@@ -29,14 +27,14 @@ public class FirewallRule
     /// This property determines whether the rule applies to inbound or outbound traffic,
     /// or if it is currently set to none.
     /// </remarks>
-    public FirewallRuleDirection Direction { get; private set; } = FirewallRuleDirection.Inbound;
+    public FirewallRuleDirection Direction { get; set; } = FirewallRuleDirection.Inbound;
 
     private FirewallRuleProgram _program;
 
     public FirewallRuleProgram Program
     {
         get => _program;
-        private set
+        set
         {
             if (value is null)
                 return;
@@ -49,7 +47,7 @@ public class FirewallRule
     public List<FirewallPortSpecification> LocalPorts
     {
         get => _localPorts;
-        private set
+        set
         {
             if (value is null)
                 return;
@@ -87,6 +85,8 @@ public class FirewallRule
             _networkCategory = value;
         }
     }
+
+    public FirewallRuleAction Action { get; set; } = FirewallRuleAction.Block;
     
     #endregion
     

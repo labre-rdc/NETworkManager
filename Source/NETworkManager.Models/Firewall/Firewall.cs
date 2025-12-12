@@ -76,33 +76,11 @@ public class Firewall(string profile)
     {
         return await Task.Run(() => UpdateRules(rules));
     }
-
-    public string RuleToName(FirewallRule rule)
-    {
-        if (rule is null)
-            return string.Empty;
-        StringBuilder resultBuilder = new();
-        resultBuilder.Append("NwM");
-        resultBuilder.Append($"_{Profile ?? "Unknown"}");
-        var direction = rule.Direction switch
-        {
-            FirewallRuleDirection.Inbound => "in",
-            FirewallRuleDirection.Outbound => "out",
-            _ => null
-        };
-        if (direction is not null)
-            resultBuilder.Append($"_{direction}");
-        if (rule.LocalPorts?.Count > 0)
-            resultBuilder.Append($"_{FirewallRule.PortsToString(rule.LocalPorts)}");
-        if (rule.RemotePorts?.Count > 0)
-            resultBuilder.Append($"_{FirewallRule.PortsToString((rule.RemotePorts))}");
-        if (rule.Program is not null && !string.IsNullOrEmpty(rule.Program.Executable?.Name))
-            resultBuilder.Append($"_{rule.Program.Executable.Name}");
-        return resultBuilder.ToString();
-    }
-
+    
     private bool ExecuteCommand(string command)
     {
+        if (profile is "Unknown")
+            return false;
         return true;
     }
 

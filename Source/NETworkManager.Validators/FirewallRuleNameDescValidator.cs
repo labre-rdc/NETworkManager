@@ -16,8 +16,9 @@ public class FirewallRuleNameDescValidator : ValidationRule
     /// <returns></returns>
     public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
-        if (value is not string strVal)
-            return new ValidationResult(false, "Internal error");
+        if (string.IsNullOrEmpty(value?.ToString()))
+            return ValidationResult.ValidResult;
+        var strVal = (string)value;
         if (strVal.Length > 9999)
             return new ValidationResult(false,
                 "String length was not limited to 9999 characters. This is a bug.");

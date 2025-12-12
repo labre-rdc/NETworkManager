@@ -20,6 +20,7 @@
              xmlns:localizationid="clr-namespace:NETworkManager.Localization;assembly=NETworkManager.Localization"
              xmlns:models="clr-namespace:NETworkManager.Models;assembly=NETworkManager.Models"
              xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              dialogs:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:FirewallViewModel}">
     <UserControl.Resources>
@@ -36,6 +37,7 @@
         <converters:StringNullOrEmptyToStringConverter x:Key="StringNullOrEmptyToStringConverter" />
         <converters:EnumToStringConverter x:Key="EnumToStringConverter" />
         <converters:BoolArrayToFwRuleCategoriesConverter x:Key="BoolArrayToFwRuleCategoriesConverter" />
+        <converters:EnumToIntConverter x:Key="EnumToIntConverter"/>
         <wpfHelpers:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
     </UserControl.Resources>
 
@@ -60,11 +62,12 @@
             <TextBlock Style="{StaticResource ResourceKey=HeaderTextBlock}"
                        Text="{x:Static Member=localization:Strings.FirewallRules}" />
             <controls:MultiSelectDataGrid Grid.Column="0" Grid.Row="1"
-                                          ItemsSource="{Binding Path=FirewallRules}"
-                                          SelectedItem="{Binding Path=SelectedRules}"
+                                          ItemsSource="{Binding Path=FirewallRules, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedItem="{Binding Path=SelectedRule, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           SelectedItemsList="{Binding Path=SelectedRules, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           RowDetailsVisibilityMode="Collapsed"
                                           EnableRowVirtualization="True"
+                                          VerticalScrollBarVisibility="Auto"
                                           ScrollViewer.CanContentScroll="True"
                                           VirtualizingPanel.IsVirtualizing="True"
                                           VirtualizingPanel.IsVirtualizingWhenGrouping="True"
@@ -72,6 +75,18 @@
                                           VirtualizingPanel.VirtualizationMode="Recycling"
                                           VirtualizingPanel.ScrollUnit="Item">
                 <controls:MultiSelectDataGrid.Resources>
+                    <ObjectDataProvider x:Key="ProtocolNames" MethodName="GetEnumTranslation"
+                                        ObjectType="{x:Type viewModels:FirewallRuleViewModel}">
+                        <ObjectDataProvider.MethodParameters>
+                            <x:Type TypeName="firewall:FirewallProtocol"/>
+                        </ObjectDataProvider.MethodParameters>
+                    </ObjectDataProvider>
+                    <ObjectDataProvider x:Key="DirectionNames" MethodName="GetEnumTranslation"
+                                        ObjectType="{x:Type viewModels:FirewallRuleViewModel}">
+                        <ObjectDataProvider.MethodParameters>
+                            <x:Type TypeName="firewall:FirewallRuleDirection"/>
+                        </ObjectDataProvider.MethodParameters>
+                    </ObjectDataProvider>
                     <wpfHelpers:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
                     <ContextMenu x:Key="MultiRowContextMenu" Opened="ContextMenu_Opened" MinWidth="150">
                         <MenuItem Header="{x:Static localization:Strings.Add}"
@@ -84,7 +99,6 @@
                                 </Rectangle>
                             </MenuItem.Icon>
                         </MenuItem>
-                        <!-- TODO: Command/CommandParameter -->
                         <MenuItem Header="{x:Static localization:Strings.Delete}"
                                   Command="{Binding DeleteRulesCommand}">
                             <MenuItem.Icon>
@@ -144,40 +158,47 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="{x:Static localization:Strings.Name}"
-                                        Binding="{Binding (firewall:FirewallRule.Name)}"
-                                        SortMemberPath="FirewallRule.Name"
+                                        Binding="{Binding Name}"
+                                        SortMemberPath="Name"
                                         MinWidth="150" />
                     <DataGridTextColumn Header="{x:Static localization:Strings.Protocol}"
-                                        Binding="{Binding (firewall:FirewallRule.Protocol),
+                                        Binding="{Binding Protocol,
                                         Converter={StaticResource EnumToStringConverter}}"
-                                        SortMemberPath="FirewallRule.Protocol"
+                                        SortMemberPath="Protocol"
                                         MinWidth="150">
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="{x:Static localization:Strings.Direction}"
-                                        Binding="{Binding (firewall:FirewallRule.Direction),
+                                        Binding="{Binding Direction,
                                         Converter={StaticResource EnumToStringConverter}}"
-                                        SortMemberPath="FirewallRule.Direction"
+                                        SortMemberPath="Direction"
                                         MinWidth="150" />
                     <DataGridTextColumn Header="{x:Static localization:Strings.LocalPorts}"
-                                        Binding="{Binding (firewall:FirewallRule.LocalPorts)}"
-                                        SortMemberPath="FirewallRule.LocalPorts"
+                                        Binding="{Binding LocalPorts}"
+                                        Visibility="{Binding Path=(viewModels:FirewallRuleViewModel.LocalPorts).Count,
+                                        Converter={StaticResource IntNotZeroToVisibilityCollapsedConverter}}"
+                                        SortMemberPath="LocalPorts"
                                         MinWidth="150" />
                     <DataGridTextColumn Header="{x:Static localization:Strings.RemotePorts}"
-                                        Binding="{Binding (firewall:FirewallRule.RemotePorts)}"
-                                        SortMemberPath="FirewallRule.RemotePorts"
+                                        Binding="{Binding RemotePorts}"
+                                        SortMemberPath="RemotePorts"
                                         MinWidth="150" />
                     <DataGridTextColumn Header="{x:Static localization:Strings.Program}"
-                                        Binding="{Binding (firewall:FirewallRule.Program).Executable}"
-                                        SortMemberPath="FirewallRule.Program"
+                                        Binding="{Binding Program.Executable}"
+                                        SortMemberPath="Program"
                                         MinWidth="150" />
                     <DataGridTextColumn Header="{x:Static localization:Strings.NetworkCategory}"
-                                        Binding="{Binding (firewall:FirewallRule.NetworkCategory),
+                                        Binding="{Binding NetworkCategory,
                                         Converter={StaticResource BoolArrayToFwRuleCategoriesConverter}}"
-                                        SortMemberPath="FirewallRule.NetworkCategory"
+                                        SortMemberPath="NetworkCategory"
+                                        MinWidth="150" />
+                    <DataGridTextColumn Header="{x:Static localization:Strings.Action}"
+                                        Binding="{Binding Action,
+                                        Converter={StaticResource EnumToStringConverter}}"
+                                        SortMemberPath="Action"
                                         MinWidth="150" />
                 </controls:MultiSelectDataGrid.Columns>
                 <controls:MultiSelectDataGrid.RowDetailsTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:FirewallRuleViewModel}">
                         <!-- Highlight the border when the row is selected -->
                         <Border BorderThickness="1,0,1,1"
                                 Background="{DynamicResource MahApps.Brushes.Window.Background}">
@@ -207,10 +228,15 @@
                                     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CenterTextBlock}">
                                         <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Gray5}" />
                                     </Style>
+                                    
                                 </Grid.Resources>
                                 <!-- User defined name -->
                                 <Grid Grid.Row="0">
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="10" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="10" />
                                         <RowDefinition Height="*" />
@@ -223,66 +249,70 @@
                                                Text="{x:Static localization:Strings.Name}"
                                                Style="{StaticResource BoldTextBlock}" />
                                     <TextBox x:Name="TextBoxRuleUserName" Grid.Column="0" Grid.Row="2"
-                                             mah:TextBoxHelper.Watermark="{Binding Name}"
+                                             mah:TextBoxHelper.Watermark="{Binding DefaultName}"
                                              MaxLength="9999">
                                         <TextBox.Text>
                                             <Binding Path="UserDefinedName" Mode="TwoWay"
                                                      UpdateSourceTrigger="PropertyChanged">
                                                 <Binding.ValidationRules>
-                                                    <validators:FirewallRuleNameDescValidator
-                                                        ValidatesOnTargetUpdated="True" />
+                                                    <validators:FirewallRuleNameDescValidator />
                                                 </Binding.ValidationRules>
                                             </Binding>
                                         </TextBox.Text>
                                     </TextBox>
-                                    <!--
+                                    <!-- Protocol -->
                                     <TextBlock Grid.Row="4"
                                                Text="{x:Static localization:Strings.Protocol}"
                                                Style="{StaticResource BoldTextBlock}" />
                                     <ComboBox x:Name="ComboBoxProtocol" Grid.Row="6"
                                               Style="{StaticResource DefaultComboBox}"
-                                              ItemsSource="{Binding Path=Protocol}">
-                                        <ComboBox.Text>
-                                            <Binding Path="ConfigSubnetmask" Mode="TwoWay"
-                                                     UpdateSourceTrigger="PropertyChanged">
-                                                <Binding.ValidationRules>
-                                                    <validators:EmptyValidator ValidatesOnTargetUpdated="True" />
-                                                    <validators:IPv4SubnetmaskOrCIDRValidator
-                                                        ValidatesOnTargetUpdated="True" />
-                                                </Binding.ValidationRules>
-                                            </Binding>
-                                        </ComboBox.Text>
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="150" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="25" />
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Grid.Column="0" VerticalAlignment="Center"
-                                                               Style="{StaticResource DefaultTextBlock}"
-                                                               FontFamily="Consolas"
-                                                               Text="{Binding Path=Subnetmask}" />
-                                                    <TextBlock Grid.Column="1" VerticalAlignment="Center"
-                                                               Style="{StaticResource DefaultTextBlock}"
-                                                               Text="{Binding Path=CIDR,StringFormat=/{0}}"
-                                                               Foreground="{DynamicResource GrayBrush2}" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                    -->
+                                              ItemsSource="{Binding
+                                              Source={StaticResource ProtocolNames}}"
+                                              SelectedIndex="{Binding Protocol,
+                                              Converter={StaticResource EnumToIntConverter}}"
+                                              SelectedItem="{Binding Protocol,
+                                              Mode=TwoWay,
+                                              UpdateSourceTrigger=PropertyChanged}"/>
+                                    <!-- Direction -->
+                                    <TextBlock Grid.Row="8"
+                                               Text="{x:Static localization:Strings.Direction}"
+                                               Style="{StaticResource BoldTextBlock}" />
+                                    <ComboBox Grid.Row="10"
+                                              Style="{StaticResource DefaultComboBox}"
+                                              ItemsSource="{Binding
+                                              Source={StaticResource DirectionNames}}"
+                                              SelectedIndex="{Binding Direction,
+                                              Converter={StaticResource EnumToIntConverter}}"
+                                              SelectedItem="{Binding Direction,
+                                              UpdateSourceTrigger=PropertyChanged,
+                                              Mode=TwoWay,
+                                              Converter={StaticResource EnumToStringConverter}}"/>
                                 </Grid>
+                                <Grid Grid.Row="0" Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0"
+                                               Text="TODO"
+                                               Style="{StaticResource BoldTextBlock}" />
+                                    </Grid>
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </controls:MultiSelectDataGrid.RowDetailsTemplate>
             </controls:MultiSelectDataGrid>
-            <StackPanel Grid.Row="1" Grid.Column="1">
-                <Button Margin="10,0,10,0" Command="{Binding AddRuleCommand}"
+            <StackPanel Grid.Row="1" Grid.Column="1" Margin="10, 0, 10, 0" MinWidth="150">
+                <Button Margin="0,0,0,10" Command="{Binding AddRuleCommand}"
                         Style="{StaticResource ImageWithTextButton}">
                     <Button.Content>
                         <Grid>
@@ -301,8 +331,9 @@
                         </Grid>
                     </Button.Content>
                 </Button>
-                <Button Margin="10,0,10,0"
-                        Style="{StaticResource ImageWithTextButton}">
+                <Button Margin="0,0,0,10"
+                        Style="{StaticResource ImageWithTextButton}"
+                        Command="{Binding DeleteRulesCommand}">
                     <Button.Content>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -320,7 +351,7 @@
                         </Grid>
                     </Button.Content>
                 </Button>
-                <Button Margin="10,0,10,0"
+                <Button Margin="0,0,0,10"
                         Style="{StaticResource ImageWithTextButton}">
                     <Button.Content>
                         <Grid>

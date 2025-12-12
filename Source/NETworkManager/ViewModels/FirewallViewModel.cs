@@ -46,11 +46,24 @@ public class FirewallViewModel : ViewModelBase, IProfileManager
     private bool _isLoading;
     private bool _isViewActive = true;
 
-    private NetworkCategory _networkProfileConfig;
-    
-    private ObservableCollection<FirewallRule> _firewallRules = [];
+    private FirewallRuleViewModel _selectedRule;
 
-    public ObservableCollection<FirewallRule> FirewallRules
+    public FirewallRuleViewModel SelectedRule
+    {
+        get => _selectedRule;
+        set
+        {
+            if (value == _selectedRule)
+                return;
+
+            _selectedRule = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    private ObservableCollection<FirewallRuleViewModel> _firewallRules = [];
+
+    public ObservableCollection<FirewallRuleViewModel> FirewallRules
     {
         get => _firewallRules;
         set
@@ -59,47 +72,16 @@ public class FirewallViewModel : ViewModelBase, IProfileManager
                 return;
 
             _firewallRules = value;
-        }
-    }
-
-    public ICollectionView RulesView { get; }
-
-    private string _editingRuleUserName;
-
-    public string EditingRuleUserName
-    {
-        get => _editingRuleUserName;
-        set
-        {
-            if (value == _editingRuleUserName)
-                return;
-
-            _editingRuleUserName = value;
             OnPropertyChanged();
         }
     }
-    
-    private FirewallRule _editingRule; 
-    
-    public FirewallRule EditingRule
-    {
-        get => _editingRule;
-        set
-        {
-            if (value.Equals(_editingRule))
-                return;
 
-            _editingRule = value;
-            OnPropertyChanged();
-        }
-    }
-    
-    private List<FirewallRule> _selectedRules;
+    private IList _selectedRules;
     
     /// <summary>
     /// Indices of selected rules
     /// </summary>
-    public List<FirewallRule> SelectedRules
+    public IList SelectedRules
     {
         get => _selectedRules;
         set
@@ -670,11 +652,9 @@ public class FirewallViewModel : ViewModelBase, IProfileManager
 
     private void AddRule()
     {
-        var firewall = new Firewall(ProfileManager.LoadedProfileFile?.Name); 
-        var newRule = new FirewallRule();
-        string name = firewall.RuleToName(newRule);
-        newRule.Name = name;
-        FirewallRules.Add(newRule);
+        FirewallRules ??= [];
+        
+        FirewallRules.Add(new FirewallRuleViewModel());
     }
     
     public ICommand DeleteRulesCommand => new RelayCommand(_ => DeleteRulesAction());
@@ -686,8 +666,18 @@ public class FirewallViewModel : ViewModelBase, IProfileManager
     
     private void DeleteRules()
     {
-        foreach (FirewallRule rule in SelectedRules)
-            FirewallRules.Remove(rule);
+        if (SelectedRules is null && SelectedRule is null)
+            return;
+        if (SelectedRules is not null)
+        {
+            var rulesToDelete = SelectedRules.Cast<FirewallRuleViewModel>().ToList();
+            foreach (FirewallRuleViewModel rule in rulesToDelete)
+                FirewallRules?.Remove(rule);
+            return;
+        }
+
+        if (SelectedRule is not null)
+            FirewallRules?.Remove(SelectedRule);
     }
     #endregion
 
@@ -708,8 +698,10 @@ public class FirewallViewModel : ViewModelBase, IProfileManager
 
             firewall.UserHasCanceled += Firewall_UserHasCanceled;
 
-            await firewall.UpdateRulesAsync(FirewallRules.ToList());
+            var firewallRules = FirewallRules
+                .Select(ruleVm => ruleVm.ToRule()).ToList();
 
+            await firewall.UpdateRulesAsync(firewallRules);
         }
         catch (Exception ex)
         {

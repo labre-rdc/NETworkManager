@@ -12,7 +12,7 @@ public class BoolArrayToFwRuleCategoriesConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         const int expectedLength = 3;
-        var fallback = Enum.GetName(NetworkCategory.NotConfigured);
+        var fallback = GetTranslation(Enum.GetName(NetworkCategory.NotConfigured), false);
         if (value is not bool[] { Length: expectedLength } boolArray)
             return fallback;
         var result = string.Empty;

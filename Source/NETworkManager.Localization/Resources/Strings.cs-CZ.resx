@@ -3984,4 +3984,13 @@ If you click Cancel, the profile file will remain unencrypted.</value>
   <data name="PipeNotAllowed" xml:space="preserve">
     <value>Character ‘|’ is not allowed.</value>
   </data>
+  <data name="Allow" xml:space="preserve">
+    <value>Allow</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
 </root>

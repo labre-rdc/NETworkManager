@@ -294,6 +294,15 @@ namespace NETworkManager.Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        public static string Action {
+            get {
+                return ResourceManager.GetString("Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
@@ -659,6 +668,15 @@ namespace NETworkManager.Localization.Resources {
         public static string All {
             get {
                 return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow.
+        /// </summary>
+        public static string Allow {
+            get {
+                return ResourceManager.GetString("Allow", resourceCulture);
             }
         }
         
@@ -1262,6 +1280,15 @@ namespace NETworkManager.Localization.Resources {
         public static string Black {
             get {
                 return ResourceManager.GetString("Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Block.
+        /// </summary>
+        public static string Block {
+            get {
+                return ResourceManager.GetString("Block", resourceCulture);
             }
         }
         
